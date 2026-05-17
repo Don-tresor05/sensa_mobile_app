@@ -1,0 +1,20 @@
+{
+  "expo": {
+    "name": "sensa_mobile_app",
+    "slug": "sensa_mobile_app",
+    "version": "1.0.0",
+    "sdkVersion": "54.0.0",
+    "platforms": ["ios", "android", "web"],
+    "orientation": "portrait",
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    },
+    "assetBundlePatterns": ["**/*"],
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "package": "com.sensa_mobile_app"
+    }
+  }
+}
