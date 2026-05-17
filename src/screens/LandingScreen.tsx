@@ -1,5 +1,6 @@
 import { ScrollView, View, Text, Pressable, StyleSheet } from "react-native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { Ionicons } from "@expo/vector-icons";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { RootStackParamList } from "../navigation/AppNavigator";
 
@@ -113,6 +114,135 @@ export default function LandingScreen({ navigation }: Props) {
               </View>
               <Text style={styles.demoItemText}>Now I know how to respond without guessing.</Text>
             </View>
+          </View>
+        </View>
+
+        <View style={styles.capabilitiesSection}>
+          <Text style={styles.capabilitiesKicker}>CORE CAPABILITIES</Text>
+          <Text style={styles.capabilitiesTitle}>Everything you need to stay connected.</Text>
+
+          <View style={styles.capabilityCard}>
+            <View style={styles.capabilityIcon}>
+              <Ionicons name="grid-outline" size={24} color="#ff4f8d" />
+            </View>
+            <Text style={styles.capabilityTitle}>Unified Hub</Text>
+            <Text style={styles.capabilityText}>
+              The Command Center for all communication. Type, speak, or sign without ever leaving the page.
+            </Text>
+          </View>
+
+          <View style={styles.capabilityCard}>
+            <View style={styles.capabilityIcon}>
+              <Ionicons name="hand-left-outline" size={24} color="#ff4f8d" />
+            </View>
+            <Text style={styles.capabilityTitle}>Sign Lab</Text>
+            <Text style={styles.capabilityText}>
+              Advanced hand-landmark detection powered by MediaPipe. Real-time recognition via your camera.
+            </Text>
+          </View>
+
+          <View style={styles.capabilityCard}>
+            <View style={styles.capabilityIcon}>
+              <Ionicons name="mic-outline" size={24} color="#ff4f8d" />
+            </View>
+            <Text style={styles.capabilityTitle}>Speech Core</Text>
+            <Text style={styles.capabilityText}>
+              Ultra-low latency transcription using Groq and Whisper, bridged with neural text-to-speech.
+            </Text>
+          </View>
+        </View>
+
+        <View style={styles.adaptiveSection}>
+          <Text style={styles.adaptiveKicker}>ADAPTIVE ACCESS</Text>
+          <Text style={styles.adaptiveTitle}>Interfaces that change for the people.</Text>
+          <Text style={styles.adaptiveBody}>
+            Sensa adapts the interface to the people in the conversation. Instead of asking one side to work around a barrier, it changes the bridge itself.
+          </Text>
+
+          <View style={styles.adaptiveBullets}>
+            <View style={styles.adaptiveBulletRow}>
+              <Ionicons name="checkmark-circle-outline" size={18} color="#111111" />
+              <Text style={styles.adaptiveBulletText}>Real-time Sign Detection</Text>
+            </View>
+            <View style={styles.adaptiveBulletRow}>
+              <Ionicons name="checkmark-circle-outline" size={18} color="#111111" />
+              <Text style={styles.adaptiveBulletText}>Groq Whisper STT</Text>
+            </View>
+            <View style={styles.adaptiveBulletRow}>
+              <Ionicons name="checkmark-circle-outline" size={18} color="#111111" />
+              <Text style={styles.adaptiveBulletText}>Multimodal Neural TTS</Text>
+            </View>
+          </View>
+
+          <View style={styles.adaptiveCard}>
+            <View style={styles.adaptiveCardIcon}>
+              <Ionicons name="eye-outline" size={18} color="#111111" />
+            </View>
+            <Text style={styles.adaptiveCardTitle}>Not Seeing</Text>
+            <Text style={styles.adaptiveCardBody}>Voice-forward interaction with clear spoken guidance.</Text>
+            <Text style={styles.adaptiveCardSubBody}>
+              Prioritizes audio cues and assistant speech when the screen cannot carry the conversation.
+            </Text>
+          </View>
+
+          <View style={styles.adaptiveCard}>
+            <View style={styles.adaptiveCardIcon}>
+              <Ionicons name="mic-outline" size={18} color="#111111" />
+            </View>
+            <Text style={styles.adaptiveCardTitle}>Not Speaking</Text>
+            <Text style={styles.adaptiveCardBody}>Gesture and text become the primary bridge.</Text>
+            <Text style={styles.adaptiveCardSubBody}>
+              Large controls and camera-assisted input reduce the pressure to speak to be understood.
+            </Text>
+          </View>
+
+          <View style={styles.adaptiveCard}>
+            <View style={styles.adaptiveCardIcon}>
+              <Ionicons name="volume-high-outline" size={18} color="#111111" />
+            </View>
+            <Text style={styles.adaptiveCardTitle}>Not Hearing</Text>
+            <Text style={styles.adaptiveCardBody}>Visual prompts and readable responses stay in focus.</Text>
+            <Text style={styles.adaptiveCardSubBody}>
+              Captions, pacing, and legible message cards keep the exchange grounded on screen.
+            </Text>
+          </View>
+
+          <View style={styles.adaptiveCard}>
+            <View style={styles.adaptiveCardIcon}>
+              <Ionicons name="person-outline" size={18} color="#111111" />
+            </View>
+            <Text style={styles.adaptiveCardTitle}>Standard</Text>
+            <Text style={styles.adaptiveCardBody}>Keeps everyone in the same shared interaction model.</Text>
+            <Text style={styles.adaptiveCardSubBody}>
+              Sensa stays useful even without an access barrier by keeping the bridge explicit and calm.
+            </Text>
+          </View>
+        </View>
+
+        <View style={styles.ctaSection}>
+          <Text style={styles.ctaKicker}>START YOUR CONVERSATION</Text>
+          <Text style={styles.ctaTitle}>Ready to break communication barriers? Launch the bridge setup now.</Text>
+          <Pressable onPress={() => navigation.navigate("App")} hitSlop={10}>
+            <Text style={styles.ctaLink}>Launch Setup</Text>
+          </Pressable>
+        </View>
+
+        <View style={styles.integritySection}>
+          <View style={styles.integrityRow}>
+            <View style={styles.integrityBadge}>
+              <Ionicons name="flash-outline" size={22} color="#ff4f8d" />
+            </View>
+            <View style={styles.integrityTextBlock}>
+              <Text style={styles.integrityTitle}>System Integrity</Text>
+              <Text style={styles.integritySubtitle}>Backend services status</Text>
+            </View>
+          </View>
+
+          <View style={styles.integrityMetaRow}>
+            <View style={styles.integrityPill}>
+              <Text style={styles.integrityPillText}>Connected</Text>
+            </View>
+            <Text style={styles.integrityVersion}>V1.2.0-MVP</Text>
           </View>
         </View>
       </View>
@@ -421,5 +551,225 @@ const styles = StyleSheet.create({
     fontSize: 14,
     lineHeight: 20,
     color: "rgba(0,0,0,0.68)",
+  },
+  capabilitiesSection: {
+    marginTop: 44,
+  },
+  capabilitiesKicker: {
+    fontSize: 11,
+    fontWeight: "700",
+    letterSpacing: 2.6,
+    color: "#ff4f8d",
+  },
+  capabilitiesTitle: {
+    marginTop: 10,
+    fontSize: 37,
+    lineHeight: 38,
+    letterSpacing: -2.6,
+    fontWeight: "400",
+    color: "#111111",
+    maxWidth: 330,
+  },
+  capabilityCard: {
+    marginTop: 22,
+    borderRadius: 18,
+    backgroundColor: "#ffffff",
+    borderWidth: 1,
+    borderColor: "rgba(0,0,0,0.05)",
+    paddingHorizontal: 18,
+    paddingVertical: 18,
+    shadowColor: "#000",
+    shadowOpacity: 0.05,
+    shadowRadius: 14,
+    shadowOffset: { width: 0, height: 8 },
+    elevation: 2,
+  },
+  capabilityIcon: {
+    width: 38,
+    height: 38,
+    borderRadius: 8,
+    backgroundColor: "#fbf2de",
+    alignItems: "center",
+    justifyContent: "center",
+    marginBottom: 18,
+  },
+  capabilityTitle: {
+    fontSize: 18,
+    lineHeight: 24,
+    fontWeight: "700",
+    color: "#111111",
+  },
+  capabilityText: {
+    marginTop: 10,
+    fontSize: 15,
+    lineHeight: 22,
+    color: "rgba(0,0,0,0.68)",
+    maxWidth: 310,
+  },
+  adaptiveSection: {
+    marginTop: 44,
+  },
+  adaptiveKicker: {
+    fontSize: 11,
+    fontWeight: "700",
+    letterSpacing: 2.6,
+    color: "rgba(0,0,0,0.45)",
+  },
+  adaptiveTitle: {
+    marginTop: 10,
+    fontSize: 38,
+    lineHeight: 40,
+    letterSpacing: -2.6,
+    fontWeight: "400",
+    color: "#111111",
+    maxWidth: 340,
+  },
+  adaptiveBody: {
+    marginTop: 18,
+    fontSize: 18,
+    lineHeight: 28,
+    color: "rgba(0,0,0,0.72)",
+    maxWidth: 360,
+  },
+  adaptiveBullets: {
+    marginTop: 24,
+    gap: 12,
+  },
+  adaptiveBulletRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 10,
+  },
+  adaptiveBulletText: {
+    fontSize: 16,
+    lineHeight: 22,
+    fontWeight: "700",
+    color: "#111111",
+  },
+  adaptiveCard: {
+    marginTop: 26,
+    borderRadius: 18,
+    backgroundColor: "#fffdf8",
+    borderWidth: 1,
+    borderColor: "rgba(0,0,0,0.05)",
+    paddingHorizontal: 18,
+    paddingVertical: 18,
+    shadowColor: "#000",
+    shadowOpacity: 0.05,
+    shadowRadius: 14,
+    shadowOffset: { width: 0, height: 8 },
+    elevation: 2,
+  },
+  adaptiveCardIcon: {
+    width: 38,
+    height: 38,
+    borderRadius: 8,
+    backgroundColor: "#f7f0de",
+    alignItems: "center",
+    justifyContent: "center",
+    marginBottom: 18,
+  },
+  adaptiveCardTitle: {
+    fontSize: 18,
+    lineHeight: 24,
+    fontWeight: "700",
+    color: "#111111",
+  },
+  adaptiveCardBody: {
+    marginTop: 14,
+    fontSize: 15,
+    lineHeight: 22,
+    color: "#111111",
+  },
+  adaptiveCardSubBody: {
+    marginTop: 16,
+    fontSize: 14,
+    lineHeight: 21,
+    color: "rgba(0,0,0,0.58)",
+  },
+  ctaSection: {
+    marginTop: 70,
+    paddingBottom: 30,
+  },
+  ctaKicker: {
+    fontSize: 11,
+    fontWeight: "700",
+    letterSpacing: 2.2,
+    color: "rgba(0,0,0,0.42)",
+  },
+  ctaTitle: {
+    marginTop: 14,
+    fontSize: 33,
+    lineHeight: 37,
+    letterSpacing: -2,
+    fontWeight: "400",
+    color: "#111111",
+    maxWidth: 320,
+  },
+  ctaLink: {
+    marginTop: 36,
+    fontSize: 18,
+    lineHeight: 24,
+    color: "#111111",
+  },
+  integritySection: {
+    marginTop: 56,
+    alignItems: "center",
+    paddingBottom: 32,
+  },
+  integrityRow: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  integrityBadge: {
+    width: 44,
+    height: 44,
+    borderRadius: 999,
+    backgroundColor: "#f8f1df",
+    alignItems: "center",
+    justifyContent: "center",
+    marginRight: 16,
+    borderWidth: 1,
+    borderColor: "rgba(0,0,0,0.04)",
+  },
+  integrityTextBlock: {
+    alignItems: "flex-start",
+  },
+  integrityTitle: {
+    fontSize: 18,
+    lineHeight: 24,
+    fontWeight: "700",
+    color: "#111111",
+  },
+  integritySubtitle: {
+    marginTop: 2,
+    fontSize: 13,
+    lineHeight: 18,
+    color: "rgba(0,0,0,0.52)",
+  },
+  integrityMetaRow: {
+    marginTop: 24,
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 18,
+  },
+  integrityPill: {
+    backgroundColor: "#0d3a1b",
+    borderRadius: 999,
+    paddingHorizontal: 18,
+    paddingVertical: 7,
+  },
+  integrityPillText: {
+    fontSize: 13,
+    lineHeight: 18,
+    color: "#8ef0a2",
+    fontWeight: "500",
+  },
+  integrityVersion: {
+    fontSize: 12,
+    lineHeight: 18,
+    color: "rgba(0,0,0,0.50)",
+    fontWeight: "700",
+    letterSpacing: 1.2,
   },
 });
