@@ -1,0 +1,13 @@
+node_modules/
+.expo/
+.expo-shared/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+web-build/
+**/*.log
+**/*.lock
+/babel.config.js
+/metro.config.js
+/dist/
