@@ -7,7 +7,7 @@ import CommunicateScreen from "../screens/CommunicateScreen";
 export type RootStackParamList = {
   Landing: undefined;
   App: undefined;
-  Bridge: undefined;
+  Bridge: { a: string } | undefined;
   Communicate: { a: string; b: string } | undefined;
 };
 
