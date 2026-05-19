@@ -3,6 +3,7 @@ import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { Ionicons } from "@expo/vector-icons";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { RootStackParamList } from "../navigation/AppNavigator";
+import { TopNav } from "../components/AppChrome";
 
 type Props = NativeStackScreenProps<RootStackParamList, "Landing">;
 
@@ -10,204 +11,196 @@ export default function LandingScreen({ navigation }: Props) {
   const insets = useSafeAreaInsets();
 
   return (
-    <ScrollView style={styles.screen} contentContainerStyle={[styles.content, { paddingBottom: insets.bottom + 24 }]} showsVerticalScrollIndicator={false}>
-      <View style={[styles.nav, { paddingTop: insets.top + 12 }]}>
-        <Text style={styles.navLogo}>Sensa</Text>
-        <View style={styles.navLinks}>
-          <Text style={styles.navLinkActive}>Landing</Text>
-          <View style={styles.navDivider} />
-          <Pressable onPress={() => navigation.navigate("App")} hitSlop={8}>
-            <Text style={styles.navLink}>App</Text>
-          </Pressable>
-        </View>
-      </View>
-
-      <View style={styles.hero}>
-        <View style={styles.badge}>
-          <View style={styles.badgeDot} />
-          <Text style={styles.badgeText}>Clay refined · Accessibility without boundaries</Text>
-        </View>
-
-        <Text style={styles.heroTitle}>A quieter way to keep two people understood.</Text>
-        <Text style={styles.heroSub}>
-          Sensa is the world's first unified translation layer connecting Speech, Sign Language, and Text in one seamless, adaptive experience.
-        </Text>
-
-        <View style={styles.heroCtas}>
-          <Pressable onPress={() => navigation.navigate("App")} style={styles.ctaPrimary}>
-            <Text style={styles.ctaPrimaryText}>Launch Setup →</Text>
-          </Pressable>
-          <Pressable onPress={() => navigation.navigate("Communicate", { a: "none", b: "none" })} style={styles.ctaSecondary}>
-            <Text style={styles.ctaSecondaryText}>Preview Bridge</Text>
-          </Pressable>
-        </View>
-
-        <View style={styles.statsRow}>
-          <View style={styles.stat}>
-            <Text style={styles.statNum}>2</Text>
-            <Text style={styles.statLabel}>People, one shared bridge</Text>
+    <View style={styles.screen}>
+      <TopNav active="Landing" onPressLanding={() => undefined} onPressApp={() => navigation.navigate("App")} />
+      <ScrollView style={styles.scroll} contentContainerStyle={[styles.content, { paddingBottom: insets.bottom + 24 }]} showsVerticalScrollIndicator={false}>
+        <View style={styles.hero}>
+          <View style={styles.badge}>
+            <View style={styles.badgeDot} />
+            <Text style={styles.badgeText}>Clay refined · Accessibility without boundaries</Text>
           </View>
-          <View style={styles.stat}>
-            <Text style={styles.statNum}>3</Text>
-            <Text style={styles.statLabel}>Adaptive access paths</Text>
-          </View>
-          <View style={styles.stat}>
-            <Text style={styles.statNum}>&lt;1m</Text>
-            <Text style={styles.statLabel}>From setup to live use</Text>
-          </View>
-        </View>
-      </View>
 
-      <View style={styles.demoCard}>
-        <View style={styles.demoHeader}>
-          <View>
-            <Text style={styles.demoLabel}>Interface Demo</Text>
-            <Text style={styles.demoTitle}>Active Bridge</Text>
-          </View>
-          <View style={styles.demoIconBtn}>
-            <Ionicons name="grid-outline" size={15} color="#E85A8A" />
-          </View>
-        </View>
+          <Text style={styles.heroTitle}>A quieter way to keep two people understood.</Text>
+          <Text style={styles.heroSub}>
+            Sensa is the world's first unified translation layer connecting Speech, Sign Language, and Text in one seamless, adaptive experience.
+          </Text>
 
-        <View style={styles.orbContainer}>
-          <View style={styles.orb} />
-        </View>
+          <View style={styles.heroCtas}>
+            <Pressable onPress={() => navigation.navigate("App")} style={styles.ctaPrimary}>
+              <Text style={styles.ctaPrimaryText}>Launch Setup →</Text>
+            </Pressable>
+            <Pressable onPress={() => navigation.navigate("Communicate", { a: "none", b: "none" })} style={styles.ctaSecondary}>
+              <Text style={styles.ctaSecondaryText}>Preview Bridge</Text>
+            </Pressable>
+          </View>
 
-        <View style={styles.msgList}>
-          <View style={styles.msgRow}>
-            <View style={styles.msgTop}>
-              <Text style={styles.msgFrom}>Person A</Text>
-              <Text style={[styles.msgTag, styles.tagGesture]}>gesture</Text>
+          <View style={styles.statsRow}>
+            <View style={styles.stat}>
+              <Text style={styles.statNum}>2</Text>
+              <Text style={styles.statLabel}>People, one shared bridge</Text>
             </View>
-            <Text style={styles.msgText}>I need the answer shown clearly on screen.</Text>
-          </View>
-          <View style={styles.msgRow}>
-            <View style={styles.msgTop}>
-              <Text style={styles.msgFrom}>Sensa</Text>
-              <Text style={[styles.msgTag, styles.tagBridge]}>bridge</Text>
+            <View style={styles.stat}>
+              <Text style={styles.statNum}>3</Text>
+              <Text style={styles.statLabel}>Adaptive access paths</Text>
             </View>
-            <Text style={styles.msgText}>Switching to visual prompts and live text.</Text>
-          </View>
-          <View style={styles.msgRow}>
-            <View style={styles.msgTop}>
-              <Text style={styles.msgFrom}>Person B</Text>
-              <Text style={[styles.msgTag, styles.tagReply]}>reply</Text>
+            <View style={styles.stat}>
+              <Text style={styles.statNum}>&lt;1m</Text>
+              <Text style={styles.statLabel}>From setup to live use</Text>
             </View>
-            <Text style={styles.msgText}>Now I know how to respond without guessing.</Text>
           </View>
         </View>
-      </View>
 
-      <View style={styles.section}>
-        <Text style={styles.sectionEyebrow}>Core Capabilities</Text>
-        <Text style={styles.sectionTitle}>Everything you need to stay connected.</Text>
-
-        <View style={styles.capCards}>
-          <View style={styles.capCard}>
-            <View style={styles.capIcon}>
-              <Ionicons name="grid-outline" size={18} color="#E85A8A" />
+        <View style={styles.demoCard}>
+          <View style={styles.demoHeader}>
+            <View>
+              <Text style={styles.demoLabel}>Interface Demo</Text>
+              <Text style={styles.demoTitle}>Active Bridge</Text>
             </View>
-            <Text style={styles.capName}>Unified Hub</Text>
-            <Text style={styles.capDesc}>The Command Center for all communication. Type, speak, or sign without ever leaving the page.</Text>
+            <View style={styles.demoIconBtn}>
+              <Ionicons name="grid-outline" size={15} color="#E85A8A" />
+            </View>
           </View>
 
-          <View style={styles.twoCol}>
-            <View style={[styles.capCard, styles.capCardHalf]}>
-              <View style={styles.capIcon}>
-                <Ionicons name="hand-left-outline" size={18} color="#E85A8A" />
+          <View style={styles.orbContainer}>
+            <View style={styles.orb} />
+          </View>
+
+          <View style={styles.msgList}>
+            <View style={styles.msgRow}>
+              <View style={styles.msgTop}>
+                <Text style={styles.msgFrom}>Person A</Text>
+                <Text style={[styles.msgTag, styles.tagGesture]}>gesture</Text>
               </View>
-              <Text style={styles.capName}>Sign Lab</Text>
-              <Text style={styles.capDesc}>Hand-landmark detection powered by MediaPipe. Real-time via your camera.</Text>
+              <Text style={styles.msgText}>I need the answer shown clearly on screen.</Text>
             </View>
-            <View style={[styles.capCard, styles.capCardHalf]}>
-              <View style={styles.capIcon}>
-                <Ionicons name="mic-outline" size={18} color="#E85A8A" />
+            <View style={styles.msgRow}>
+              <View style={styles.msgTop}>
+                <Text style={styles.msgFrom}>Sensa</Text>
+                <Text style={[styles.msgTag, styles.tagBridge]}>bridge</Text>
               </View>
-              <Text style={styles.capName}>Speech Core</Text>
-              <Text style={styles.capDesc}>Ultra-low latency transcription via Groq &amp; Whisper, bridged with neural TTS.</Text>
+              <Text style={styles.msgText}>Switching to visual prompts and live text.</Text>
+            </View>
+            <View style={styles.msgRow}>
+              <View style={styles.msgTop}>
+                <Text style={styles.msgFrom}>Person B</Text>
+                <Text style={[styles.msgTag, styles.tagReply]}>reply</Text>
+              </View>
+              <Text style={styles.msgText}>Now I know how to respond without guessing.</Text>
             </View>
           </View>
         </View>
-      </View>
 
-      <View style={styles.accessSection}>
-        <Text style={styles.sectionEyebrow}>Adaptive Access</Text>
-        <Text style={styles.sectionTitle}>Interfaces that change for the people.</Text>
-        <Text style={styles.accessDesc}>
-          Sensa adapts to the people in the conversation - instead of asking one side to work around a barrier, it changes the bridge itself.
-        </Text>
+        <View style={styles.section}>
+          <Text style={styles.sectionEyebrow}>Core Capabilities</Text>
+          <Text style={styles.sectionTitle}>Everything you need to stay connected.</Text>
 
-        <View style={styles.featuresList}>
-          <View style={styles.featItem}>
-            <Ionicons name="checkmark-circle-outline" size={15} color="#E85A8A" />
-            <Text style={styles.featText}>Real-time Sign Detection</Text>
-          </View>
-          <View style={styles.featItem}>
-            <Ionicons name="checkmark-circle-outline" size={15} color="#E85A8A" />
-            <Text style={styles.featText}>Groq Whisper STT</Text>
-          </View>
-          <View style={styles.featItem}>
-            <Ionicons name="checkmark-circle-outline" size={15} color="#E85A8A" />
-            <Text style={styles.featText}>Multimodal Neural TTS</Text>
+          <View style={styles.capCards}>
+            <View style={styles.capCard}>
+              <View style={styles.capIcon}>
+                <Ionicons name="grid-outline" size={18} color="#E85A8A" />
+              </View>
+              <Text style={styles.capName}>Unified Hub</Text>
+              <Text style={styles.capDesc}>The Command Center for all communication. Type, speak, or sign without ever leaving the page.</Text>
+            </View>
+
+            <View style={styles.twoCol}>
+              <View style={[styles.capCard, styles.capCardHalf]}>
+                <View style={styles.capIcon}>
+                  <Ionicons name="hand-left-outline" size={18} color="#E85A8A" />
+                </View>
+                <Text style={styles.capName}>Sign Lab</Text>
+                <Text style={styles.capDesc}>Hand-landmark detection powered by MediaPipe. Real-time via your camera.</Text>
+              </View>
+              <View style={[styles.capCard, styles.capCardHalf]}>
+                <View style={styles.capIcon}>
+                  <Ionicons name="mic-outline" size={18} color="#E85A8A" />
+                </View>
+                <Text style={styles.capName}>Speech Core</Text>
+                <Text style={styles.capDesc}>Ultra-low latency transcription via Groq &amp; Whisper, bridged with neural TTS.</Text>
+              </View>
+            </View>
           </View>
         </View>
 
-        <View style={styles.modeGrid}>
-          <View style={styles.modeCard}>
-            <View style={styles.modeIcon}>
-              <Ionicons name="eye-outline" size={16} color="#666666" />
-            </View>
-            <Text style={styles.modeName}>Not Seeing</Text>
-            <Text style={styles.modeDesc}>Voice-forward with clear spoken guidance</Text>
-          </View>
-          <View style={styles.modeCard}>
-            <View style={styles.modeIcon}>
-              <Ionicons name="mic-off-outline" size={16} color="#666666" />
-            </View>
-            <Text style={styles.modeName}>Not Speaking</Text>
-            <Text style={styles.modeDesc}>Gesture and text become the primary bridge</Text>
-          </View>
-          <View style={styles.modeCard}>
-            <View style={styles.modeIcon}>
-              <Ionicons name="volume-high-outline" size={16} color="#666666" />
-            </View>
-            <Text style={styles.modeName}>Not Hearing</Text>
-            <Text style={styles.modeDesc}>Visual prompts and readable responses stay in focus</Text>
-          </View>
-          <View style={styles.modeCard}>
-            <View style={styles.modeIcon}>
-              <Ionicons name="person-outline" size={16} color="#666666" />
-            </View>
-            <Text style={styles.modeName}>Standard</Text>
-            <Text style={styles.modeDesc}>One shared interaction model for everyone</Text>
-          </View>
-        </View>
-      </View>
+        <View style={styles.accessSection}>
+          <Text style={styles.sectionEyebrow}>Adaptive Access</Text>
+          <Text style={styles.sectionTitle}>Interfaces that change for the people.</Text>
+          <Text style={styles.accessDesc}>
+            Sensa adapts to the people in the conversation - instead of asking one side to work around a barrier, it changes the bridge itself.
+          </Text>
 
-      <View style={styles.ctaSection}>
-        <Text style={styles.ctaEyebrow}>Start your conversation</Text>
-        <Text style={styles.ctaTitle}>Ready to break communication barriers?</Text>
-        <Pressable onPress={() => navigation.navigate("App")}>
-          <Text style={styles.ctaBtnText}>Launch Setup →</Text>
-        </Pressable>
-      </View>
+          <View style={styles.featuresList}>
+            <View style={styles.featItem}>
+              <Ionicons name="checkmark-circle-outline" size={15} color="#E85A8A" />
+              <Text style={styles.featText}>Real-time Sign Detection</Text>
+            </View>
+            <View style={styles.featItem}>
+              <Ionicons name="checkmark-circle-outline" size={15} color="#E85A8A" />
+              <Text style={styles.featText}>Groq Whisper STT</Text>
+            </View>
+            <View style={styles.featItem}>
+              <Ionicons name="checkmark-circle-outline" size={15} color="#E85A8A" />
+              <Text style={styles.featText}>Multimodal Neural TTS</Text>
+            </View>
+          </View>
 
-      <View style={styles.statusBar}>
-        <View style={styles.statusLeft}>
-          <View style={styles.statusIcon}>
-            <Ionicons name="flash-outline" size={17} color="#E85A8A" />
-          </View>
-          <View>
-            <Text style={styles.statusName}>System Integrity</Text>
-            <Text style={styles.statusSub}>Backend services status</Text>
+          <View style={styles.modeGrid}>
+            <View style={styles.modeCard}>
+              <View style={styles.modeIcon}>
+                <Ionicons name="eye-outline" size={16} color="#666666" />
+              </View>
+              <Text style={styles.modeName}>Not Seeing</Text>
+              <Text style={styles.modeDesc}>Voice-forward with clear spoken guidance</Text>
+            </View>
+            <View style={styles.modeCard}>
+              <View style={styles.modeIcon}>
+                <Ionicons name="mic-off-outline" size={16} color="#666666" />
+              </View>
+              <Text style={styles.modeName}>Not Speaking</Text>
+              <Text style={styles.modeDesc}>Gesture and text become the primary bridge</Text>
+            </View>
+            <View style={styles.modeCard}>
+              <View style={styles.modeIcon}>
+                <Ionicons name="volume-high-outline" size={16} color="#666666" />
+              </View>
+              <Text style={styles.modeName}>Not Hearing</Text>
+              <Text style={styles.modeDesc}>Visual prompts and readable responses stay in focus</Text>
+            </View>
+            <View style={styles.modeCard}>
+              <View style={styles.modeIcon}>
+                <Ionicons name="person-outline" size={16} color="#666666" />
+              </View>
+              <Text style={styles.modeName}>Standard</Text>
+              <Text style={styles.modeDesc}>One shared interaction model for everyone</Text>
+            </View>
           </View>
         </View>
-        <View style={styles.statusRight}>
-          <Text style={styles.connectedBadge}>Connected</Text>
-          <Text style={styles.versionLabel}>V1.2.0-MVP</Text>
+
+        <View style={styles.ctaSection}>
+          <Text style={styles.ctaEyebrow}>Start your conversation</Text>
+          <Text style={styles.ctaTitle}>Ready to break communication barriers?</Text>
+          <Pressable onPress={() => navigation.navigate("App")}>
+            <Text style={styles.ctaBtnText}>Launch Setup →</Text>
+          </Pressable>
         </View>
-      </View>
-    </ScrollView>
+
+        <View style={styles.statusBar}>
+          <View style={styles.statusLeft}>
+            <View style={styles.statusIcon}>
+              <Ionicons name="flash-outline" size={17} color="#E85A8A" />
+            </View>
+            <View>
+              <Text style={styles.statusName}>System Integrity</Text>
+              <Text style={styles.statusSub}>Backend services status</Text>
+            </View>
+          </View>
+          <View style={styles.statusRight}>
+            <Text style={styles.connectedBadge}>Connected</Text>
+            <Text style={styles.versionLabel}>V1.2.0-MVP</Text>
+          </View>
+        </View>
+      </ScrollView>
+    </View>
   );
 }
 
@@ -221,43 +214,6 @@ const styles = StyleSheet.create({
   },
   content: {
     paddingBottom: 24,
-  },
-  nav: {
-    paddingHorizontal: 24,
-    paddingBottom: 8,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-  },
-  navLogo: {
-    fontSize: 20,
-    fontWeight: "400",
-    letterSpacing: -0.5,
-    color: "#1a1a1a",
-  },
-  navLinks: {
-    flexDirection: "row",
-    alignItems: "center",
-  },
-  navLinkActive: {
-    fontSize: 11,
-    fontWeight: "500",
-    letterSpacing: 1.2,
-    color: "#1a1a1a",
-    textTransform: "uppercase",
-  },
-  navLink: {
-    fontSize: 11,
-    fontWeight: "500",
-    letterSpacing: 1.2,
-    color: "#888888",
-    textTransform: "uppercase",
-  },
-  navDivider: {
-    width: 1,
-    height: 14,
-    backgroundColor: "#ccc",
-    marginHorizontal: 16,
   },
   hero: {
     paddingHorizontal: 24,
