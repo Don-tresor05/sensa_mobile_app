@@ -1,204 +1,354 @@
-import { ScrollView, View, Text, Pressable, StyleSheet } from "react-native";
+import { useState } from "react";
+import { View, Text, Pressable, StyleSheet, ScrollView } from "react-native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { Ionicons } from "@expo/vector-icons";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { RootStackParamList } from "../navigation/AppNavigator";
+import { BottomNav, TopNav } from "../components/AppChrome";
 
 type Props = NativeStackScreenProps<RootStackParamList, "App">;
 
 const options = [
-  {
-    id: "visual",
-    title: "Not Seeing",
-    subtitle: "Audio & Voice focus",
-    icon: "eye-outline" as const,
-  },
-  {
-    id: "vocal",
-    title: "Not Speaking",
-    subtitle: "Gesture & Text focus",
-    icon: "mic-outline" as const,
-  },
-  {
-    id: "auditory",
-    title: "Not Hearing",
-    subtitle: "Visual & Haptic focus",
-    icon: "volume-high-outline" as const,
-  },
-  {
-    id: "none",
-    title: "Standard",
-    subtitle: "Full multimodal access",
-    icon: "person-outline" as const,
-  },
+  { id: "visual", title: "Not Seeing", subtitle: "Audio & Voice focus", icon: "eye-off-outline" as const },
+  { id: "vocal", title: "Not Speaking", subtitle: "Gesture & Text focus", icon: "mic-off-outline" as const },
+  { id: "auditory", title: "Not Hearing", subtitle: "Visual & Haptic focus", icon: "volume-high-outline" as const },
+  { id: "none", title: "Standard", subtitle: "Full multimodal access", icon: "person-outline" as const },
 ] as const;
+
+type OptionId = (typeof options)[number]["id"];
 
 export default function AppScreen({ navigation }: Props) {
   const insets = useSafeAreaInsets();
+  const [selected, setSelected] = useState<OptionId>("visual");
 
   return (
-    <ScrollView style={styles.screen} contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
-      <View style={[styles.header, { paddingTop: insets.top + 10 }]}>
-        <Text style={styles.brand}>Sensa</Text>
-        <View style={styles.nav}>
-          <Pressable onPress={() => navigation.navigate("Landing")} hitSlop={8}>
-            <Text style={styles.navItem}>LANDING</Text>
-          </Pressable>
-          <Text style={styles.navItemActive}>APP</Text>
-          <View style={styles.navDivider} />
+    <View style={styles.phoneFrame}>
+      <TopNav active="App" onPressLanding={() => navigation.navigate("Landing")} onPressApp={() => undefined} />
+      <View style={styles.dividerLine} />
+
+      <ScrollView style={styles.contentScroll} contentContainerStyle={{ paddingBottom: insets.bottom + 12 }} showsVerticalScrollIndicator={false}>
+        <View style={styles.heroArea}>
+          <View style={styles.avatar}>
+            <View style={styles.avatarGrey} />
+          </View>
+          <Text style={styles.progressLabel}>Bridge Setup · 1/2</Text>
+          <Text style={styles.pageTitle}>Define Person A</Text>
+          <Text style={styles.pageSub}>Select the primary interaction needs for the first participant.</Text>
+          <View style={styles.progressBar}>
+            <View style={styles.progSegDone} />
+            <View style={styles.progSegPending} />
+          </View>
         </View>
+
+        <View style={styles.modeGrid}>
+          {options.map((option) => {
+            const isSelected = selected === option.id;
+            return (
+              <Pressable
+                key={option.id}
+                onPress={() => setSelected(option.id)}
+                style={[styles.modeCard, isSelected && styles.modeCardSelected]}
+              >
+                <View style={[styles.selIndicator, isSelected && styles.selIndicatorVisible]}>
+                  {option.id === "visual" ? <Text style={styles.selCheck}>✓</Text> : null}
+                </View>
+                <View style={[styles.modeIconWrap, isSelected && styles.modeIconWrapSelected]}>
+                  <Ionicons name={option.icon} size={17} color={isSelected ? "#FAF8F4" : "#666666"} />
+                </View>
+                <Text style={styles.modeName}>{option.title}</Text>
+                <Text style={styles.modeDesc}>{option.subtitle}</Text>
+              </Pressable>
+            );
+          })}
+        </View>
+      </ScrollView>
+
+      <View style={styles.stepActions}>
+        <Text style={styles.stepLabel}>Step 1 of 2</Text>
+        <Pressable style={styles.btnNext} onPress={() => navigation.navigate("Bridge", { a: selected })}>
+          <Text style={styles.btnNextText}>Next: Person B</Text>
+          <Ionicons name="arrow-forward" size={14} color="#FAF8F4" />
+        </Pressable>
       </View>
 
-      <View style={styles.hero}>
-        <View style={styles.heroCircle} />
-        <Text style={styles.kicker}>BRIDGE SETUP • 1/2</Text>
-        <View style={styles.heroTitleWrap}>
-          <Text style={styles.heroTitle}>Define Person A</Text>
-          <Text style={styles.heroTitle}>Define Person A</Text>
-        </View>
-        <Text style={styles.heroBody}>Select the primary interaction needs for the first participant.</Text>
-      </View>
-
-      <View style={styles.cards}>
-        {options.map((option) => (
-          <Pressable
-            key={option.id}
-            onPress={() => navigation.navigate("Communicate", { a: option.id, b: "none" })}
-            style={styles.card}
-          >
-            <View style={styles.iconTile}>
-              <Ionicons name={option.icon} size={23} color="#191919" />
-            </View>
-            <View style={styles.cardCopy}>
-              <Text style={styles.cardTitle}>{option.title}</Text>
-              <Text style={styles.cardSubtitle}>{option.subtitle}</Text>
-            </View>
-          </Pressable>
-        ))}
-      </View>
-    </ScrollView>
+      <BottomNav
+        active="Home"
+        onHomePress={() => navigation.navigate("App")}
+        onSetupPress={() => navigation.navigate("Bridge", { a: selected })}
+        onBridgePress={() => navigation.navigate("Communicate", { a: selected, b: "none" })}
+        onSettingsPress={() => navigation.navigate("Bridge", { a: selected })}
+        onProfilePress={() => navigation.navigate("App")}
+      />
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  screen: {
+  phoneFrame: {
     flex: 1,
-    backgroundColor: "#fbf8ef",
+    backgroundColor: "#FAF8F4",
   },
-  content: {
-    paddingBottom: 48,
+  topNav: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    paddingHorizontal: 24,
+    paddingBottom: 8,
   },
-  header: {
-    paddingHorizontal: 20,
-    paddingBottom: 22,
-    borderBottomWidth: StyleSheet.hairlineWidth,
-    borderBottomColor: "rgba(0,0,0,0.08)",
+  navLogo: {
+    fontSize: 20,
+    fontWeight: "400",
+    letterSpacing: -0.5,
+    color: "#1a1a1a",
+  },
+  navLinks: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 14,
+  },
+  navLink: {
+    fontSize: 10,
+    fontWeight: "500",
+    letterSpacing: 1.2,
+    color: "#aaa",
+    textTransform: "uppercase",
+  },
+  navLinkActive: {
+    fontSize: 10,
+    fontWeight: "500",
+    letterSpacing: 1.2,
+    color: "#1a1a1a",
+    textTransform: "uppercase",
+  },
+  navDividerV: {
+    width: 1,
+    height: 12,
+    backgroundColor: "#ddd",
+  },
+  dividerLine: {
+    height: StyleSheet.hairlineWidth,
+    backgroundColor: "#e0ddd6",
+  },
+  contentScroll: {
+    flex: 1,
+  },
+  heroArea: {
+    paddingHorizontal: 24,
+    paddingTop: 28,
+    position: "relative",
+  },
+  progressLabel: {
+    fontSize: 9,
+    fontWeight: "500",
+    letterSpacing: 1.3,
+    textTransform: "uppercase",
+    color: "#aaa",
+    marginBottom: 12,
+  },
+  pageTitle: {
+    fontSize: 32,
+    lineHeight: 37,
+    letterSpacing: -1,
+    fontWeight: "400",
+    color: "#1a1a1a",
+    maxWidth: 210,
+    marginBottom: 8,
+  },
+  pageSub: {
+    fontSize: 12,
+    lineHeight: 19,
+    color: "#999",
+    fontWeight: "300",
+    maxWidth: 210,
+    marginBottom: 20,
+  },
+  avatar: {
+    position: "absolute",
+    right: 24,
+    top: 28,
+    width: 76,
+    height: 76,
+    borderRadius: 38,
+    overflow: "hidden",
+  },
+  avatarGrey: {
+    width: "100%",
+    height: "100%",
+    backgroundColor: "#b1aba2",
+  },
+  progressBar: {
+    flexDirection: "row",
+    gap: 6,
+    marginBottom: 24,
+  },
+  progSegDone: {
+    height: 3,
+    flex: 1,
+    borderRadius: 100,
+    backgroundColor: "#1a1a1a",
+  },
+  progSegPending: {
+    height: 3,
+    flex: 1,
+    borderRadius: 100,
+    backgroundColor: "#e0ddd6",
+  },
+  modeGrid: {
+    paddingHorizontal: 16,
+    paddingBottom: 16,
+    flexDirection: "row",
+    flexWrap: "wrap",
+    gap: 10,
+  },
+  modeCard: {
+    width: "48%",
+    minHeight: 100,
+    backgroundColor: "#fff",
+    borderRadius: 18,
+    borderWidth: 1,
+    borderColor: "#e8e4de",
+    paddingHorizontal: 14,
+    paddingVertical: 16,
+    position: "relative",
+  },
+  modeCardSelected: {
+    borderWidth: 1.5,
+    borderColor: "#1a1a1a",
+    backgroundColor: "#F7F5F0",
+  },
+  selIndicator: {
+    position: "absolute",
+    top: 10,
+    right: 10,
+    width: 8,
+    height: 8,
+    borderRadius: 4,
+    backgroundColor: "transparent",
+  },
+  selIndicatorVisible: {
+    width: 16,
+    height: 16,
+    borderRadius: 8,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "#1a1a1a",
+  },
+  selCheck: {
+    fontSize: 9,
+    color: "#FAF8F4",
+    lineHeight: 12,
+  },
+  modeIconWrap: {
+    width: 34,
+    height: 34,
+    borderRadius: 10,
+    backgroundColor: "#F1EFE8",
+    alignItems: "center",
+    justifyContent: "center",
+    marginBottom: 10,
+  },
+  modeIconWrapSelected: {
+    backgroundColor: "#1a1a1a",
+  },
+  modeName: {
+    fontSize: 13,
+    fontWeight: "500",
+    color: "#1a1a1a",
+    marginBottom: 3,
+  },
+  modeDesc: {
+    fontSize: 10,
+    lineHeight: 14,
+    color: "#bbb",
+  },
+  stepActions: {
+    paddingHorizontal: 16,
+    paddingTop: 12,
+    paddingBottom: 10,
+    borderTopWidth: StyleSheet.hairlineWidth,
+    borderTopColor: "#e8e4de",
+    backgroundColor: "#FAF8F4",
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
   },
-  brand: {
-    fontSize: 22,
-    fontWeight: "600",
-    letterSpacing: -0.4,
-    color: "#111111",
+  stepLabel: {
+    fontSize: 11,
+    color: "#ccc",
+    letterSpacing: 1,
+    textTransform: "uppercase",
   },
-  nav: {
+  btnNext: {
     flexDirection: "row",
     alignItems: "center",
+    gap: 6,
+    backgroundColor: "#1a1a1a",
+    borderRadius: 100,
+    paddingVertical: 11,
+    paddingHorizontal: 20,
   },
-  navItemActive: {
-    marginRight: 34,
+  btnNextText: {
     fontSize: 12,
-    fontWeight: "700",
-    letterSpacing: 4,
-    color: "rgba(0,0,0,0.55)",
+    fontWeight: "500",
+    color: "#FAF8F4",
+  },
+  bottomNav: {
+    backgroundColor: "#fff",
+    borderTopWidth: StyleSheet.hairlineWidth,
+    borderTopColor: "#e8e4de",
+    flexDirection: "row",
+    justifyContent: "space-around",
+    alignItems: "flex-end",
+    paddingTop: 10,
   },
   navItem: {
-    marginRight: 24,
-    fontSize: 12,
-    fontWeight: "700",
-    letterSpacing: 4,
-    color: "rgba(0,0,0,0.32)",
-  },
-  navDivider: {
-    width: 1,
-    height: 20,
-    backgroundColor: "rgba(0,0,0,0.10)",
-  },
-  hero: {
-    paddingHorizontal: 20,
-    paddingTop: 22,
-    position: "relative",
-  },
-  heroCircle: {
-    position: "absolute",
-    right: 25,
-    top: 18,
-    width: 114,
-    height: 114,
-    borderRadius: 999,
-    backgroundColor: "#b1aba2",
-  },
-  kicker: {
-    fontSize: 12,
-    fontWeight: "700",
-    letterSpacing: 4.2,
-    color: "rgba(0,0,0,0.38)",
-  },
-  heroTitleWrap: {
-    width: 190,
-    marginTop: 12,
-  },
-  heroTitle: {
-    fontSize: 53,
-    lineHeight: 50,
-    letterSpacing: -4.2,
-    color: "#111111",
-    fontWeight: "400",
-  },
-  heroBody: {
-    marginTop: 20,
-    width: 290,
-    fontSize: 18,
-    lineHeight: 28,
-    color: "rgba(0,0,0,0.56)",
-  },
-  cards: {
-    paddingHorizontal: 20,
-    paddingTop: 34,
-    gap: 16,
-  },
-  card: {
-    flexDirection: "row",
+    flex: 1,
     alignItems: "center",
-    paddingHorizontal: 18,
-    paddingVertical: 24,
-    borderRadius: 14,
-    borderWidth: 1,
-    borderColor: "rgba(0,0,0,0.07)",
-    backgroundColor: "#fffdf7",
+    gap: 4,
   },
-  iconTile: {
-    width: 54,
-    height: 54,
-    borderRadius: 8,
-    backgroundColor: "#f7f1e1",
+  navItemIcon: {
+    width: 36,
+    height: 36,
+    borderRadius: 12,
     alignItems: "center",
     justifyContent: "center",
-    marginRight: 18,
   },
-  cardCopy: {
+  navItemIconActive: {
+    backgroundColor: "#1a1a1a",
+  },
+  navLabel: {
+    fontSize: 9,
+    fontWeight: "500",
+    letterSpacing: 0.4,
+    color: "#ccc",
+    textTransform: "uppercase",
+  },
+  navLabelActive: {
+    fontSize: 9,
+    fontWeight: "500",
+    letterSpacing: 0.4,
+    color: "#1a1a1a",
+    textTransform: "uppercase",
+  },
+  navFab: {
     flex: 1,
+    alignItems: "center",
+    gap: 4,
   },
-  cardTitle: {
-    fontSize: 17,
-    fontWeight: "600",
-    color: "#111111",
+  navFabBtn: {
+    width: 48,
+    height: 48,
+    borderRadius: 16,
+    backgroundColor: "#E85A8A",
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: -10,
   },
-  cardSubtitle: {
-    marginTop: 8,
-    fontSize: 14,
-    color: "rgba(0,0,0,0.38)",
+  navFabLabel: {
+    fontSize: 9,
+    fontWeight: "500",
+    letterSpacing: 0.4,
+    color: "#E85A8A",
+    textTransform: "uppercase",
   },
 });
