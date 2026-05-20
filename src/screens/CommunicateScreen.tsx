@@ -15,15 +15,15 @@ const personPresets = {
     orbClass: "orbGreen",
     orbLabel: "Gesture Bridge",
     speakTitle: "Tap to Speak",
-    speakSub: "Voice-over mode active",
+    speakSub: "Speech is written live",
     speakIcon: "mic-outline" as const,
   },
   b: {
     pillClass: "b",
     orbClass: "orbRed",
     orbLabel: "Aural Focus",
-    speakTitle: "Gesture Input",
-    speakSub: "Sign detection active",
+    speakTitle: "Show Signs",
+    speakSub: "Signed output is active",
     speakIcon: "hand-left-outline" as const,
   },
 } as const;
@@ -77,7 +77,11 @@ export default function CommunicateScreen({ navigation, route }: Props) {
         </Pressable>
       </View>
 
-      <View style={styles.contentArea}>
+      <ScrollView
+        style={styles.contentArea}
+        contentContainerStyle={{ paddingBottom: insets.bottom + 24, flexGrow: 1 }}
+        showsVerticalScrollIndicator={false}
+      >
         <View style={styles.orbSection}>
           <View style={[styles.orbWrap, current === "a" ? styles.orbGreen : styles.orbRed]}>
             <View style={styles.orbRing} />
@@ -85,22 +89,43 @@ export default function CommunicateScreen({ navigation, route }: Props) {
             <Text style={styles.orbLabel}>{preset.orbLabel}</Text>
           </View>
           <View style={styles.streamStatus}>
-            <Text style={styles.streamStatusText}>Multimodal stream initialized</Text>
+            <Text style={styles.streamStatusText}>Speech, text, and signs are synced</Text>
             <View style={styles.streamDot} />
           </View>
         </View>
 
-        <View style={styles.cameraSection}>
-          <View style={styles.cameraInner}>
-            <Ionicons name="hand-left-outline" size={28} color="#333" />
-            <Text style={styles.cameraLabel}>Initializing…</Text>
+        <View style={styles.transcriptCard}>
+          <View style={styles.transcriptHeader}>
+            <Text style={styles.transcriptKicker}>Live transcript</Text>
+            <View style={styles.liveTag}>
+              <View style={styles.liveTagDot} />
+              <Text style={styles.liveTagText}>Listening</Text>
+            </View>
           </View>
-          <View style={styles.cameraBadgeGreen}>
-            <View style={styles.smallDot} />
-            <Text style={styles.cameraBadgeGreenText}>Camera Active</Text>
+          <Text style={styles.transcriptText}>
+            “Hi, I need this message written out and mirrored in sign language so everyone can follow.”
+          </Text>
+          <View style={styles.transcriptMeta}>
+            <Text style={styles.transcriptMetaLabel}>Auto-written from voice</Text>
+            <Text style={styles.transcriptMetaValue}>98% confidence</Text>
           </View>
-          <View style={styles.cameraBadge}>
-            <Text style={styles.cameraBadgeText}>Surgical Bridge Active</Text>
+        </View>
+
+        <View style={styles.signCard}>
+          <View style={styles.signCardHead}>
+            <Ionicons name="hand-left-outline" size={18} color="#1a1a1a" />
+            <Text style={styles.signCardTitle}>Sign language output</Text>
+          </View>
+          <Text style={styles.signCardText}>
+            The bridge translates speech into clear visual prompts for the person who cannot hear or speak.
+          </Text>
+          <View style={styles.signPills}>
+            <View style={styles.signPill}>
+              <Text style={styles.signPillText}>Speech to text</Text>
+            </View>
+            <View style={styles.signPill}>
+              <Text style={styles.signPillText}>Text to signs</Text>
+            </View>
           </View>
         </View>
 
@@ -116,7 +141,7 @@ export default function CommunicateScreen({ navigation, route }: Props) {
             <Ionicons name="chevron-forward" size={16} color="#555" />
           </View>
         </Pressable>
-      </View>
+      </ScrollView>
 
       <View style={[styles.bottomNav, { paddingBottom: insets.bottom + 14 }]}>
         <Pressable style={styles.navItem} onPress={() => navigation.navigate("Landing")}>
@@ -324,65 +349,116 @@ const styles = StyleSheet.create({
     marginTop: 4,
   },
   cameraSection: {
+    display: "none",
+  },
+  transcriptCard: {
     marginHorizontal: 16,
-    backgroundColor: "#111",
+    backgroundColor: "#fff",
     borderRadius: 18,
-    overflow: "hidden",
-    height: 140,
-    position: "relative",
+    borderWidth: 1,
+    borderColor: "#e8e4de",
+    paddingHorizontal: 16,
+    paddingVertical: 14,
   },
-  cameraInner: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-    gap: 8,
-    backgroundColor: "#0d0d0d",
-  },
-  cameraLabel: {
-    fontSize: 12,
-    fontWeight: "500",
-    color: "#555",
-  },
-  cameraBadgeGreen: {
-    position: "absolute",
-    top: 10,
-    left: 10,
+  transcriptHeader: {
     flexDirection: "row",
     alignItems: "center",
-    gap: 5,
-    backgroundColor: "rgba(34,197,94,0.12)",
+    justifyContent: "space-between",
+    marginBottom: 10,
+  },
+  transcriptKicker: {
+    fontSize: 9,
+    fontWeight: "600",
+    letterSpacing: 1.1,
+    textTransform: "uppercase",
+    color: "#aaa",
+  },
+  liveTag: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 6,
+    backgroundColor: "#F1EFE8",
     paddingHorizontal: 10,
-    paddingVertical: 4,
+    paddingVertical: 5,
     borderRadius: 999,
   },
-  smallDot: {
-    width: 5,
-    height: 5,
+  liveTagDot: {
+    width: 6,
+    height: 6,
     borderRadius: 3,
     backgroundColor: "#22c55e",
   },
-  cameraBadgeGreenText: {
+  liveTagText: {
     fontSize: 9,
-    fontWeight: "500",
-    color: "#22c55e",
-    letterSpacing: 0.4,
+    fontWeight: "600",
+    letterSpacing: 0.8,
+    color: "#1a1a1a",
     textTransform: "uppercase",
   },
-  cameraBadge: {
-    position: "absolute",
-    right: 10,
-    bottom: 10,
-    paddingHorizontal: 10,
-    paddingVertical: 4,
+  transcriptText: {
+    fontSize: 15,
+    lineHeight: 22,
+    color: "#1a1a1a",
+    marginBottom: 12,
+  },
+  transcriptMeta: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+  },
+  transcriptMetaLabel: {
+    fontSize: 10,
+    color: "#aaa",
+  },
+  transcriptMetaValue: {
+    fontSize: 10,
+    fontWeight: "600",
+    color: "#1a1a1a",
+  },
+  signCard: {
+    marginHorizontal: 16,
+    marginTop: 12,
+    backgroundColor: "#F7F5F0",
+    borderRadius: 18,
+    borderWidth: 1,
+    borderColor: "#e8e4de",
+    paddingHorizontal: 16,
+    paddingVertical: 14,
+  },
+  signCardHead: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 8,
+    marginBottom: 8,
+  },
+  signCardTitle: {
+    fontSize: 14,
+    fontWeight: "600",
+    color: "#1a1a1a",
+  },
+  signCardText: {
+    fontSize: 13,
+    lineHeight: 20,
+    color: "#666",
+    marginBottom: 12,
+  },
+  signPills: {
+    flexDirection: "row",
+    gap: 8,
+    flexWrap: "wrap",
+  },
+  signPill: {
+    backgroundColor: "#fff",
     borderRadius: 999,
-    backgroundColor: "rgba(255,255,255,0.1)",
+    paddingHorizontal: 10,
+    paddingVertical: 6,
+    borderWidth: 1,
+    borderColor: "#e8e4de",
   },
-  cameraBadgeText: {
-    fontSize: 9,
-    fontWeight: "500",
-    color: "#FAF8F4",
-    letterSpacing: 0.4,
-    textTransform: "uppercase",
+  signPillText: {
+    fontSize: 10,
+    fontWeight: "600",
+    color: "#1a1a1a",
   },
   speakSection: {
     marginHorizontal: 16,
