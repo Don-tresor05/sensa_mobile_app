@@ -1,4 +1,4 @@
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import { Image, Pressable, StyleSheet, Text, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
@@ -13,7 +13,12 @@ export function TopNav({ active, onPressApp, onPressLanding }: TopNavProps) {
 
   return (
     <View style={[styles.topNav, { paddingTop: insets.top + 12 }]}>
-      <Text style={styles.navLogo}>Sensa</Text>
+      <View style={styles.navBrand}>
+        <View style={styles.navLogoShell}>
+          <Image source={require("../../assets/images/logo.png")} style={styles.navLogo} resizeMode="contain" />
+        </View>
+        <Text style={styles.navLogoText}>Sensa</Text>
+      </View>
       <View style={styles.navLinks}>
         <Pressable onPress={onPressLanding} hitSlop={8}>
           <Text style={active === "Landing" ? styles.navLinkActive : styles.navLink}>Landing</Text>
@@ -83,7 +88,24 @@ const styles = StyleSheet.create({
     paddingHorizontal: 24,
     paddingBottom: 8,
   },
+  navBrand: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 10,
+  },
+  navLogoShell: {
+    width: 38,
+    height: 38,
+    borderRadius: 12,
+    alignItems: "center",
+    justifyContent: "center",
+  },
   navLogo: {
+    width: 28,
+    height: 28,
+    tintColor: "#111111",
+  },
+  navLogoText: {
     fontSize: 20,
     fontWeight: "400",
     letterSpacing: -0.5,
